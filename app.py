@@ -75,9 +75,15 @@ def terjemahkan_nama_skill(skill_raw):
     if pd.isna(skill_raw):
         return "Unknown Skill"
         
-    # Ambil string asli, hilangkan spasi gaib di depan & belakang, lalu kecilkan semua huruf
+    # Ambil string asli, hilangkan spasi gaib, lalu kecilkan semua huruf
     val = str(skill_raw).strip().lower()
     
+    # === BYPASS FIX: Paksa deteksi kata rsch dan anls secara agresif ===
+    if "rsch" in val:
+        return "Research & Development (R&D)"
+    if "anls" in val or "anl" == val:
+        return "Data Analytics & System Analysis"
+        
     # 1. Cek langsung ke kamus utama
     if val in DICTIONARY_SKILL:
         return DICTIONARY_SKILL[val]
@@ -87,16 +93,14 @@ def terjemahkan_nama_skill(skill_raw):
         return f"Skill Code ({val})"
         
     # 3. LOGIKA CERDAS: Jika singkatan asing di luar kamus (panjangnya 2 - 4 karakter)
-    # Daripada nampilin "xyz", kita ubah jadi format kapital "XYZ Specialist" biar user paham itu singkatan keahlian
     if len(val) <= 4:
         singkatan_kapital = val.upper()
-        # Custom mapping otomatis untuk singkatan tak terduga
         if "ADM" in singkatan_kapital: return "Administration Services"
         if "CNL" in singkatan_kapital: return "Channel Management"
         if "PRCH" in singkatan_kapital: return "Procurement Operations"
         return f"{singkatan_kapital} Expertise"
         
-    # 4. Jika teks biasa panjang (misal: "project management"), ubah jadi Title Case ("Project Management")
+    # 4. Jika teks biasa panjang, ubah jadi Title Case
     return str(skill_raw).strip().title()
 
 # --- DATA LOADING & CACHING ---
