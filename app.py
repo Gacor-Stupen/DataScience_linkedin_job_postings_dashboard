@@ -83,6 +83,10 @@ def terjemahkan_nama_skill(skill_raw):
         return "Research & Development (R&D)"
     if "anls" in val or "anl" == val:
         return "Data Analytics & System Analysis"
+    if "mnfc" in val:
+        return "Manufacturing Operations"
+    if "othr" in val:
+        return "General Competencies"
         
     # 1. Cek langsung ke kamus utama
     if val in DICTIONARY_SKILL:
@@ -172,7 +176,12 @@ menu = st.sidebar.radio(
 
 bulan_nama_full = {1: "Januari", 2: "Februari", 3: "Maret", 4: "April", 5: "Mei", 6: "Juni", 
                    7: "Juli", 8: "Agustus", 9: "September", 10: "Oktober", 11: "November", 12: "Desember"}
-kuartal_nama = {1: "Kuartal 1 (Q1)", 2: "Kuartal 2 (Q2)", 3: "Kuartal 3 (Q3)", 4: "Kuartal 4 (Q4)"}
+kuartal_nama = {
+    1: "Kuartal 1 (Q1 - Jan s/d Mar)", 
+    2: "Kuartal 2 (Q2 - Apr s/d Jun)", 
+    3: "Kuartal 3 (Q3 - Jul s/d Sep)", 
+    4: "Kuartal 4 (Q4 - Okt s/d Des)"
+}
 
 
 # ==========================================
