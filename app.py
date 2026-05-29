@@ -183,6 +183,10 @@ if menu == "Overview & Dataset":
     col3.metric("Data Gaji Terselamatkan", f"{df_market['med_salary'].notnull().sum():,}")
     
     st.subheader("Sampel Data Lowongan Kerja (df_market)")
+    # 1. Bersihin dulu nama perusahaan yang bolong/None
+    df_market['company_name'] = df_market['company_name'].replace(['None', None, 'NaN'], 'Confidential Company')
+
+    # 2. Baru tampilin ke dataframe Streamlit
     st.dataframe(df_market.head(100), use_container_width=True)
 
 
