@@ -265,11 +265,14 @@ elif menu == "Rekomendasi & Analisis Karier":
     if not df_skills_in_ind.empty:
         daftar_opsi_skill = sorted(df_skills_in_ind['skill_readable'].dropna().unique().tolist())
     else:
-        # Fallback cadangan khusus untuk Administration of Justice / Hukum
-        if "justice" in user_industry.lower() or "law" in user_industry.lower():
-            daftar_opsi_skill = ["Legal Assistance", "Government Administration", "Criminal Justice", "Policy Analysis", "Investigation", "Public Safety"]
-        else:
-            daftar_opsi_skill = ["Management & Leadership", "Project Management", "Data Analysis", "Sales & Commercial", "Customer Support"]
+            # Gabungan skill IT, Data, Bisnis, dan Manajemen umum agar pilihan user selalu ramai
+            daftar_opsi_skill = [
+                "Python Programming", "SQL Database", "Data Analysis", "Machine Learning",
+                "Project Management", "Management & Leadership", "Business Analysis", 
+                "Business Intelligence", "Information Technology", "Sales & Commercial", 
+                "Marketing Strategy", "Administration / Administrasi", "Operations Management",
+                "Customer Support", "Strategic Planning", "Software Development"
+            ]
 
     # 2. Input Ekspektasi Gaji & Skill Pengguna di Sidebar
     with st.sidebar.expander("👤 Input Profil Lu", expanded=True):
