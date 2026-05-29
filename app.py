@@ -216,7 +216,13 @@ elif menu == "Visualisasi EDA":
                       order=df_market['formatted_experience_level'].value_counts().index, palette='viridis', ax=ax)
         st.pyplot(fig)
     elif opsi_grafik == "Top 10 Industri dengan Lowongan Terbanyak":
-        top_industries = df_company_profile['industry'].value_counts().head(10)
+        # 1. Filter out data 'Unknown' agar tidak mengacaukan visualisasi EDA
+        df_clean_industry = df_company_profile[df_company_profile['industry'] != 'Unknown']
+        
+        # 2. Hitung top 10 dari data yang sudah bersih
+        top_industries = df_clean_industry['industry'].value_counts().head(10)
+        
+        # 3. Render grafiknya
         sns.barplot(x=top_industries.values, y=top_industries.index, palette='magma', ax=ax)
         st.pyplot(fig)
     elif opsi_grafik == "Distribusi Tipe Pembayaran Gaji (Pay Period)":
