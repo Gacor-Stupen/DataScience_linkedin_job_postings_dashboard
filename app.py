@@ -55,7 +55,8 @@ DICTIONARY_SKILL = {
     "pm": "Project Management",
     "ba": "Business Analysis",
     "bi": "Business Intelligence",
-    
+    "rsch": "Research & Development (R&D)",
+    "anls": "Data Analytics & System Analysis",
     # Kode Angka (Jika ada di dataset lu)
     "1": "Accounting & Finance",
     "2": "Financial Analysis",
@@ -262,16 +263,31 @@ elif menu == "Rekomendasi & Analisis Karier":
         df_skills_in_ind = df_skills_in_ind[df_skills_in_ind['skill_readable'].str.lower() != 'information technology']
         
     # Dapatkan list nama skill manusiawi (Readable) yang sudah bersih untuk di sidebar
+    # Dapatkan list nama skill manusiawi (Readable) yang sudah bersih untuk di sidebar
     if not df_skills_in_ind.empty:
         daftar_opsi_skill = sorted(df_skills_in_ind['skill_readable'].dropna().unique().tolist())
     else:
-            # Gabungan skill IT, Data, Bisnis, dan Manajemen umum agar pilihan user selalu ramai
+        # --- SMART FALLBACK BERDASARKAN NAMA INDUSTRI ---
+        user_ind_lower = user_industry.lower()
+        
+        if "it " in user_ind_lower or "software" in user_ind_lower or "computer" in user_ind_lower or "technology" in user_ind_lower:
+            # Fallback khusus industri IT / Tech / Data jika datanya kosong akibat kepotong
             daftar_opsi_skill = [
                 "Python Programming", "SQL Database", "Data Analysis", "Machine Learning",
-                "Project Management", "Management & Leadership", "Business Analysis", 
-                "Business Intelligence", "Information Technology", "Sales & Commercial", 
-                "Marketing Strategy", "Administration / Administrasi", "Operations Management",
-                "Customer Support", "Strategic Planning", "Software Development"
+                "Cloud Computing", "Information Technology", "Software Development", "Project Management"
+            ]
+        elif "justice" in user_ind_lower or "law" in user_ind_lower or "legal" in user_ind_lower:
+            # Fallback khusus industri Hukum / Pemerintahan
+            daftar_opsi_skill = [
+                "Legal Assistance", "Government Administration", "Criminal Justice", 
+                "Policy Analysis", "Public Safety", "Legal Compliance"
+            ]
+        else:
+            # Fallback universal untuk industri umum/non-tech (Defense, Space, Manufacturing, Retail, dll)
+            daftar_opsi_skill = [
+                "Management & Leadership", "Project Management", "Operations Management",
+                "Business Development", "Strategic Planning", "Teamwork & Collaboration",
+                "Sales & Commercial", "Marketing Strategy"
             ]
 
     # 2. Input Ekspektasi Gaji & Skill Pengguna di Sidebar
